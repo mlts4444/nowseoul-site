@@ -14,7 +14,7 @@
   h1 { font-size:1.45rem; margin:0 0 .5rem; }
   p { margin:.4rem 0; }
   .muted { color:var(--muted); font-size:.95rem; }
-  .btn { display:block; margin:.7rem 0; padding:.85rem 1rem; border-radius:14px; background:var(--blue); color:#fff; text-decoration:none; font-weight:600; border:0; width:100%; font-size:1rem; }
+  .btn { box-sizing:border-box; display:block; margin:.7rem 0; padding:.85rem 1rem; border-radius:14px; background:var(--blue); color:#fff; text-decoration:none; font-weight:600; border:0; width:100%; font-size:1rem; }
   .btn.sub { background:transparent; color:var(--blue); border:1px solid var(--line); }
   details { margin-top:2rem; text-align:left; border-top:1px solid var(--line); padding-top:1rem; }
   summary { color:var(--blue); cursor:pointer; }
@@ -29,9 +29,9 @@
   <p class="muted">앱이 없다면 설치한 뒤 이 링크를 다시 눌러 주세요.</p>
   <a class="btn sub" href="https://apps.apple.com/app/id6764754115">App Store (iPhone)</a>
   <a class="btn sub" href="https://play.google.com/store/apps/details?id=com.jhk.nowseoul">Google Play (Android)</a>
-  <details>
-    <summary>앱이 열리지 않나요? 코드로 연결</summary>
-    <p>앱 → 계정 → 내 사람 → 「링크가 안 열리나요? 코드로 연결」에 아래 코드를 입력하세요.</p>
+  <details id="fallback">
+    <summary id="fbsum">앱이 열리지 않나요? 코드로 연결</summary>
+    <p id="fbhow">앱 → 계정 → 내 사람 → 「링크가 안 열리나요? 코드로 연결」에 아래 코드를 입력하세요.</p>
     <p style="text-align:center"><code id="code">--------</code></p>
     <button class="btn sub" id="copy" type="button">코드 복사</button>
     <p class="muted">코드는 24시간 동안 한 번만 쓸 수 있습니다.</p>
@@ -50,6 +50,12 @@
     ? "intent://pair?c=" + c + "#Intent;scheme=nowseoul;package=com.jhk.nowseoul;S.browser_fallback_url=" + encodeURIComponent(play) + ";end"
     : "nowseoul://pair?c=" + c;
   document.getElementById("open").setAttribute("href", target);
+  // [122R W-176 iPhone 응급 처방] iPhone 앱은 아직 연결 링크를 처리하지 못함(다음 iOS 묶음) → iPhone = 코드 안내를 펼쳐 둠 · iOS 출하 뒤 이 블록 삭제.
+  if (!/Android/i.test(ua)) {
+    document.getElementById("fallback").open = true;
+    document.getElementById("fbsum").textContent = "iPhone은 코드로 연결해 주세요";
+    document.getElementById("fbhow").textContent = "앱이 열려도 연결 창이 뜨지 않으면: 앱 → 지도 화면의 계정(사람 아이콘) → 내 사람 → 「연결 코드 입력」 칸에 아래 코드를 붙여넣고 「연결하기」를 눌러 주세요.";
+  }
   document.getElementById("copy").addEventListener("click", function () {
     try { navigator.clipboard.writeText(c); this.textContent = "복사했습니다"; } catch (e) {}
   });
@@ -57,7 +63,11 @@
   var once = false;
   try { once = sessionStorage.getItem("pair_redirected_" + c) === "1"; sessionStorage.setItem("pair_redirected_" + c, "1"); } catch (e) {}
   if (!once) setTimeout(function () { location.href = target; }, 400);
-  setTimeout(function () { state.textContent = "앱이 열리지 않으면 아래 「앱에서 열기」를 눌러 주세요."; }, 2000);
+  setTimeout(function () {
+    state.textContent = /Android/i.test(ua)
+      ? "앱이 열리지 않으면 아래 「앱에서 열기」를 눌러 주세요."
+      : "iPhone에서는 앱이 열려도 연결 창이 뜨지 않을 수 있어요. 아래 코드로 연결해 주세요.";
+  }, 2000);
 })();
 </script>
 </body>
