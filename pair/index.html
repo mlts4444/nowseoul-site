@@ -53,7 +53,10 @@
   document.getElementById("copy").addEventListener("click", function () {
     try { navigator.clipboard.writeText(c); this.textContent = "복사했습니다"; } catch (e) {}
   });
-  setTimeout(function () { location.href = target; }, 400);
+  // 자동 이동은 이 페이지에서 한 번만(메신저 안 브라우저로 돌아올 때마다 앱이 다시 열리며 확인 창이 반복되는 것 방지) · 이후 = 「앱에서 열기」 버튼.
+  var once = false;
+  try { once = sessionStorage.getItem("pair_redirected_" + c) === "1"; sessionStorage.setItem("pair_redirected_" + c, "1"); } catch (e) {}
+  if (!once) setTimeout(function () { location.href = target; }, 400);
   setTimeout(function () { state.textContent = "앱이 열리지 않으면 아래 「앱에서 열기」를 눌러 주세요."; }, 2000);
 })();
 </script>
