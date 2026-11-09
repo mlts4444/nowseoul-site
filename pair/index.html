@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>지금이순간 · 내 사람 연결</title>
+<style>
+  :root { --ink:#1c1c1e; --muted:#5b5b60; --line:#d9d9de; --bg:#fafafa; --blue:#007aff; }
+  @media (prefers-color-scheme: dark) { :root { --ink:#f2f2f7; --muted:#a1a1a6; --line:#3a3a3c; --bg:#000; } }
+  html { background:var(--bg); }
+  body { margin:0; color:var(--ink); font-family:-apple-system, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", system-ui, sans-serif; font-size:17px; line-height:1.6; }
+  main { max-width:30rem; margin:0 auto; padding:3rem 1.25rem 4rem; text-align:center; }
+  h1 { font-size:1.45rem; margin:0 0 .5rem; }
+  p { margin:.4rem 0; }
+  .muted { color:var(--muted); font-size:.95rem; }
+  .btn { display:block; margin:.7rem 0; padding:.85rem 1rem; border-radius:14px; background:var(--blue); color:#fff; text-decoration:none; font-weight:600; border:0; width:100%; font-size:1rem; }
+  .btn.sub { background:transparent; color:var(--blue); border:1px solid var(--line); }
+  details { margin-top:2rem; text-align:left; border-top:1px solid var(--line); padding-top:1rem; }
+  summary { color:var(--blue); cursor:pointer; }
+  code { font-size:1.4rem; letter-spacing:.12em; }
+</style>
+</head>
+<body>
+<main>
+  <h1>내 사람 연결</h1>
+  <p class="muted" id="state">지금이순간 앱을 여는 중입니다…</p>
+  <a class="btn" id="open" href="#">앱에서 열기</a>
+  <p class="muted">앱이 없다면 설치한 뒤 이 링크를 다시 눌러 주세요.</p>
+  <a class="btn sub" href="https://apps.apple.com/app/id6764754115">App Store (iPhone)</a>
+  <a class="btn sub" href="https://play.google.com/store/apps/details?id=com.jhk.nowseoul">Google Play (Android)</a>
+  <details>
+    <summary>앱이 열리지 않나요? 코드로 연결</summary>
+    <p>앱 → 계정 → 내 사람 → 「링크가 안 열리나요? 코드로 연결」에 아래 코드를 입력하세요.</p>
+    <p style="text-align:center"><code id="code">--------</code></p>
+    <button class="btn sub" id="copy" type="button">코드 복사</button>
+    <p class="muted">코드는 24시간 동안 한 번만 쓸 수 있습니다.</p>
+  </details>
+</main>
+<script>
+(function () {
+  var raw = new URLSearchParams(location.search).get("c") || "";
+  var c = raw.toUpperCase().replace(/[^A-HJ-KMNP-Z2-9]/g, "").slice(0, 8);
+  var state = document.getElementById("state");
+  document.getElementById("code").textContent = c || "--------";
+  if (c.length !== 8) { state.textContent = "링크가 올바르지 않습니다. 보낸 사람에게 새 링크를 요청해 주세요."; return; }
+  var ua = navigator.userAgent || "";
+  var play = "https://play.google.com/store/apps/details?id=com.jhk.nowseoul";
+  var target = /Android/i.test(ua)
+    ? "intent://pair?c=" + c + "#Intent;scheme=nowseoul;package=com.jhk.nowseoul;S.browser_fallback_url=" + encodeURIComponent(play) + ";end"
+    : "nowseoul://pair?c=" + c;
+  document.getElementById("open").setAttribute("href", target);
+  document.getElementById("copy").addEventListener("click", function () {
+    try { navigator.clipboard.writeText(c); this.textContent = "복사했습니다"; } catch (e) {}
+  });
+  setTimeout(function () { location.href = target; }, 400);
+  setTimeout(function () { state.textContent = "앱이 열리지 않으면 아래 「앱에서 열기」를 눌러 주세요."; }, 2000);
+})();
+</script>
+</body>
+</html>
