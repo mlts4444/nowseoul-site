@@ -17,6 +17,7 @@
   table { border-collapse:collapse; width:100%; font-size:.95rem; margin:.6rem 0; }
   th, td { text-align:left; vertical-align:top; padding:.5rem .6rem; border-bottom:1px solid var(--line); }
   th { font-weight:600; }
+  th, td { overflow-wrap:anywhere; }
   .meta { color:var(--muted); font-size:.95rem; }
   .lang { color:var(--muted); font-size:.95rem; margin:0 0 2rem; }
   a { color:inherit; }
@@ -29,15 +30,16 @@
 <p class="lang"><a href="#ko">한국어</a> · <a href="#en">English</a></p>
 
 <h1 id="ko">지금이순간 개인정보 처리방침</h1>
-<p class="meta">시행일 2026년 10월 29일 · 버전 1.10</p>
+<p class="meta">시행일 2026년 11월 12일 · 버전 1.11</p>
 
-<p>지금이순간(구 NowSeoul, 이하 "서비스")은 이용자가 지정한 장소의 "지금"을 다른 이용자가 촬영·녹음해 전달하는 위치 기반 앱입니다. 이 방침은 서비스가 어떤 정보를 어떤 목적으로 처리하고, 얼마나 보관하며, 이용자가 어떤 권리를 갖는지 설명합니다. 서비스는 iOS 앱, watchOS 앱, iOS 공유 확장 프로그램에 적용됩니다.</p>
+<p>지금이순간(구 NowSeoul, 이하 "서비스")은 이용자가 지정한 장소의 "지금"을 다른 이용자가 촬영·녹음해 전달하는 위치 기반 앱입니다. 이 방침은 서비스가 어떤 정보를 어떤 목적으로 처리하고, 얼마나 보관하며, 이용자가 어떤 권리를 갖는지 설명합니다. 이 방침은 iOS 앱, watchOS 앱, iOS 공유 확장 프로그램, Android 앱에 적용됩니다.</p>
 
 <h2>1. 수집하는 정보</h2>
 <h3>계정</h3>
 <ul>
-  <li>Apple로 로그인 시 Apple이 발급하는 익명 사용자 식별자. 서비스는 이 값을 가명 처리한 내부 ID로만 사용합니다.</li>
-  <li>로그인 화면에서 Apple이 이름 제공 여부를 물을 수 있으나, 서비스는 이름을 저장하지 않습니다. 이메일 주소는 요청하지 않습니다.</li>
+  <li>Apple로 로그인: Apple이 발급하는 익명 사용자 식별자. 서비스는 이 값을 가명 처리한 내부 ID로만 사용합니다. 로그인 화면에서 Apple이 이름 제공 여부를 물을 수 있으나, 서비스는 이름을 저장하지 않으며 이메일 주소를 요청하지 않습니다.</li>
+  <li>Google로 로그인: Google이 발급하는 사용자 식별자. 서비스는 이 값을 가명 처리한 내부 ID로 사용합니다. Google 로그인 과정에서 Google이 이메일 주소, 이름, 프로필 사진 주소를 함께 넘겨주며, 이 정보는 로그인을 처리하는 인증 서비스(Supabase Auth)에 보관됩니다. 서비스는 이 정보를 앱 화면에 표시하거나 다른 이용자에게 공개하지 않고, 알림·광고·마케팅에 쓰지 않습니다.</li>
+  <li>로그인 수단은 계정마다 하나입니다. Apple로 만든 계정과 Google로 만든 계정은 서로 다른 계정입니다.</li>
 </ul>
 <h3>위치</h3>
 <ul>
@@ -62,14 +64,16 @@
 </ul>
 <h3>기기·알림</h3>
 <ul>
-  <li>Apple 푸시 알림(APNs) 토큰과 플랫폼 구분(iOS/watchOS). 알림을 보내기 위해서만 사용합니다.</li>
+  <li>푸시 알림 토큰: iPhone·Apple Watch는 Apple 푸시 알림(APNs) 토큰, Android는 Firebase 클라우드 메시징(FCM) 토큰과 플랫폼 구분. 알림을 보내기 위해서만 사용합니다.</li>
+  <li>기기 구분값의 해시: 가입 코인이 한 기기에서 한 번만 지급되도록, 앱이 만든 기기 구분값(Android는 기기·앱별 식별자 ANDROID_ID, iPhone은 앱이 처음 만들어 기기 키체인에 보관하는 임의값)을 해시로 바꾼 값만 서버에 보관합니다. 원래 값은 서버에 저장하지 않으며, 이 해시는 계정과 연결해 저장하지 않습니다.</li>
 </ul>
 <h3>앱 내 코인</h3>
 <ul>
   <li>요청·응답에 쓰이는 앱 내 코인의 지급·사용 기록. 이 코인은 무료로 지급되며 현금·결제와 연결되지 않습니다. 결제 정보는 수집하지 않습니다.</li>
+  <li>가입 코인은 한 사람에게 한 번 지급하는 것을 원칙으로 하며, 이를 위해 위의 기기 구분값의 해시를 사용합니다.</li>
 </ul>
 <h3>수집하지 않는 정보</h3>
-<p>이름, 이메일, 전화번호, 연락처 목록, 광고 식별자(IDFA), 건강 정보, 결제 정보는 수집하지 않습니다. 서비스는 광고 목적의 추적을 하지 않습니다.</p>
+<p>전화번호, 연락처 목록, 광고 식별자(IDFA·광고 ID), 건강 정보, 결제 정보는 수집하지 않습니다. 이름과 이메일은 Google로 로그인한 경우에만 위 「계정」 항목처럼 인증 서비스에 보관되며, Apple로 로그인한 경우에는 수집하지 않습니다. 서비스는 광고 목적의 추적을 하지 않습니다.</p>
 
 <h2>2. 이용 목적</h2>
 <ul>
@@ -80,6 +84,7 @@
   <li>요청·응답·방송 관련 푸시 알림을 보내기 위해</li>
   <li>신고·차단 요청을 처리하고 부정 이용을 막기 위해</li>
   <li>앱 내 코인의 지급·사용을 정확히 기록하기 위해</li>
+  <li>가입 코인의 중복 지급을 막기 위해(한 기기 한 번, 장래 본인확인 도입 시 한 사람 한 번)</li>
   <li>현재 보내기가 캡처된 사실을 보낸 사람에게 알리기 위해</li>
 </ul>
 
@@ -92,8 +97,11 @@
   <tr><td>사진첩 읽기</td><td>사진·영상을 골라 업로드</td></tr>
   <tr><td>사진첩 추가</td><td>받은 자료와 직접 찍은 원본을 사진첩에 저장</td></tr>
   <tr><td>음성 인식</td><td>음성의 텍스트 변환(기기 내 처리)</td></tr>
+  <tr><td>알림(Android 13 이상)</td><td>요청·응답·현재 보내기 알림</td></tr>
+  <tr><td>전체 화면 알림 · 다른 앱 위에 표시(Android)</td><td>잠금 화면 카드와 떠 있는 창으로 현재 보내기 보여 주기</td></tr>
+  <tr><td>사진·동영상 읽기 · 사진 위치 정보(Android)</td><td>자료를 골라 올리기, 촬영 위치 확인</td></tr>
 </table>
-<p>권한은 iOS·watchOS 설정에서 언제든 끌 수 있습니다. 끄면 해당 기능만 제한됩니다.</p>
+<p>권한은 iOS·watchOS·Android 설정에서 언제든 끌 수 있습니다. 끄면 해당 기능만 제한됩니다.</p>
 
 <h2>4. 보관 기간과 삭제</h2>
 <ul>
@@ -110,16 +118,18 @@
   <li>직접 찍은 원본: 보내기 화면에서 「원본 저장」을 누르면 얼굴 가림 전 원본이 촬영 위치·시각과 함께 이용자 기기의 사진첩에만 저장되며, 이 원본은 서버로 전송되지 않습니다.</li>
   <li>현재 보내기 캡처 기록: 해당 현재 보내기와 함께 생성 5분 후 삭제됩니다.</li>
   <li>현재 위치: 계정당 최신 1건만 보관하며 새 위치로 덮어씁니다. 이동 이력은 남지 않습니다.</li>
-  <li>계정 삭제: 메인 지도 화면 오른쪽 아래 사람 모양 아이콘 → 계정 삭제에서 즉시 삭제됩니다. 계정, 위치, 푸시 토큰, 연결 관계, 모든 콘텐츠와 파일, 코인 기록이 함께 삭제되며, 재가입 악용을 막기 위해 원본을 복원할 수 없는 해시값만 보관합니다. 계정을 삭제하면 서버에 보관된 내 응답 원본과 그 키도 함께 삭제됩니다. 단, 버전 1.9 이전 거래로 iCloud(CloudKit)에 보관된 원본은 계정 삭제로 함께 지워지지 않을 수 있습니다.</li>
+  <li>계정 삭제: 메인 지도 화면 오른쪽 아래 사람 모양 아이콘 → 계정 삭제에서 즉시 삭제됩니다. 계정, 위치, 푸시 토큰, 연결 관계, 모든 콘텐츠와 파일, 코인 기록이 함께 삭제되며, 재가입 악용을 막기 위해 원래 값 대신 해시값만 보관합니다. 계정을 삭제하면 서버에 보관된 내 응답 원본과 그 키도 함께 삭제됩니다. 단, 버전 1.9 이전 거래로 iCloud(CloudKit)에 보관된 원본은 계정 삭제로 함께 지워지지 않을 수 있습니다.</li>
+  <li>Google 로그인 정보(이메일 주소·이름·프로필 사진 주소): 계정을 삭제하면 인증 서비스에서 함께 삭제됩니다.</li>
+  <li>기기 구분값의 해시: 계정을 삭제해도 남습니다. 계정과 연결되어 있지 않고, 탈퇴 뒤 재가입으로 가입 코인을 반복해 받는 것을 막는 데 쓰이기 때문입니다. 가입 코인 중복 지급 방지 목적이 유지되는 동안 보관하며, 서비스를 종료하면 삭제합니다.</li>
 </ul>
 
 <h2>5. 처리 위탁과 제3자 제공</h2>
 <p>서비스는 이용자의 개인정보를 판매하지 않으며, 아래 사업자에게 서비스 운영에 필요한 범위에서만 처리를 맡깁니다.</p>
 <table>
   <tr><th>사업자</th><th>역할</th><th>처리 위치</th></tr>
-  <tr><td>Supabase, Inc.</td><td>데이터베이스·파일 저장·서버 기능 호스팅</td><td>대한민국(서울 리전)</td></tr>
-  <tr><td>Apple Inc.</td><td>Apple 로그인, 푸시 알림, 버전 1.9 이전 거래 자료의 iCloud 보관</td><td>Apple 인프라</td></tr>
-  <tr><td>Google LLC</td><td>해외 지역 지도 표시(Google Maps SDK)</td><td>미국 등 국외</td></tr>
+  <tr><td>Supabase, Inc.</td><td>데이터베이스·파일 저장·서버 기능·인증 호스팅</td><td>대한민국(서울 리전)</td></tr>
+  <tr><td>Apple Inc.</td><td>Apple 로그인, iPhone·Apple Watch 푸시 알림, 버전 1.9 이전 거래 자료의 iCloud 보관</td><td>Apple 인프라</td></tr>
+  <tr><td>Google LLC</td><td>Google 로그인, Android 푸시 알림(Firebase 클라우드 메시징), 해외 지역 지도 표시(Google Maps SDK · iPhone)</td><td>미국 등 국외</td></tr>
   <tr><td>NAVER Cloud Corp.</td><td>국내 지역 지도 표시(NAVER Maps SDK)</td><td>대한민국</td></tr>
 </table>
 <p>Google Maps SDK는 지도 표시 과정에서 기기 식별자, 앱 사용 정보, 오류·성능 정보 등을 Google이 정한 방식으로 자체 수집합니다. 자세한 내용은 <a href="https://policies.google.com/privacy">Google 개인정보처리방침</a>을 확인해 주십시오. 다른 이용자에게 표시되는 것은 요청·응답·방송의 내용, 지정 장소, 그리고 응답 자료에 담긴 촬영 위치·촬영 시각입니다. 응답을 보내면 그 자료의 촬영 위치가 요청자에게 공개된다는 점을 유의해 주십시오. 응답을 보내면 요청자에게 응답자의 표시 이름이 함께 표시됩니다. 계정 식별자와 자료를 보내지 않는 동안의 현재 위치는 공개되지 않습니다. 「선택한 사람」으로 보낸 현재 보내기는 지정한 연결된 사람에게만 표시되며, 보낸 사람의 현재 위치가 받는 사람의 지도에 표시됩니다. 연결된 사람끼리는 서로의 표시 이름을 볼 수 있습니다. 다른 사람의 현재 보내기를 캡처하면 그 사실이 보낸 사람에게 알려집니다. 「선택한 사람」으로 받은 현재 보내기라면 캡처한 사람의 표시 이름이 함께 알려지고, 공개 현재 보내기라면 「누군가」로만 알려집니다. 무료 요청에 응답할 때 「공개로도 보내기」를 켜면 같은 내용이 얼굴을 가린 공개 현재 보내기로도 올라가 공개 현재 보내기의 규칙을 따르며, 요청한 사람에게는 공개본의 알림이 따로 가지 않습니다.</p>
@@ -127,9 +137,11 @@
 <h2>6. 국외 이전</h2>
 <table>
   <tr><th>받는 자</th><th>국가</th><th>항목</th><th>목적</th><th>보유</th></tr>
-  <tr><td>Google LLC</td><td>미국</td><td>기기 식별자, 앱 사용 정보, 오류·성능 정보</td><td>해외 지역 지도 표시</td><td>Google 방침에 따름</td></tr>
+  <tr><td>Google LLC</td><td>미국</td><td>Google 계정 식별자, 이메일 주소, 이름, 프로필 사진 주소(Google로 로그인한 경우)</td><td>로그인 처리</td><td>Google 방침에 따름</td></tr>
+  <tr><td>Google LLC</td><td>미국</td><td>Android 푸시 토큰, 앱 설치 식별자</td><td>Android 알림 전송</td><td>Google 방침에 따름</td></tr>
+  <tr><td>Google LLC</td><td>미국</td><td>기기 식별자, 앱 사용 정보, 오류·성능 정보</td><td>해외 지역 지도 표시(iPhone)</td><td>Google 방침에 따름</td></tr>
 </table>
-<p>국외 이전은 해외 지역 지도를 사용할 때 발생합니다. 이전을 원하지 않으면 해외 지역 지도 기능을 사용하지 않으시면 됩니다.</p>
+<p>국외 이전은 Google로 로그인할 때, Android에서 알림을 받을 때, iPhone에서 해외 지역 지도를 사용할 때 발생합니다. 원하지 않으면 Apple로 로그인하고, Android 알림을 끄고, 해외 지역 지도를 쓰지 않을 수 있습니다. 이 경우 해당 기능이 제한됩니다.</p>
 
 <h2>7. 이용자의 권리</h2>
 <ul>
@@ -143,7 +155,7 @@
 <p>서비스는 만 14세 미만 아동을 대상으로 하지 않으며, 아동의 개인정보를 의도적으로 수집하지 않습니다. 아동의 정보가 수집된 사실을 알게 되면 지체 없이 삭제합니다.</p>
 
 <h2>9. 안전조치</h2>
-<p>서비스는 데이터베이스 접근 제어(행 단위 접근 정책), 서버 기능의 권한 검증, 전송 구간 암호화(HTTPS·TLS), 거래 원본의 저장 시 암호화(응답마다 무작위 키), 만료 데이터의 자동 삭제를 적용합니다.</p>
+<p>서비스는 데이터베이스 접근 제어(행 단위 접근 정책), 서버 기능의 권한 검증, 전송 구간 암호화(HTTPS·TLS), 거래 원본의 저장 시 암호화(응답마다 무작위 키), 만료 데이터의 자동 삭제, 기기 구분값의 해시 보관(원래 값 미저장)을 적용합니다.</p>
 
 <h2>10. 방침 변경</h2>
 <p>방침이 바뀌면 이 페이지에 시행일과 함께 갱신본을 게시합니다. 중요한 변경은 앱에서도 안내합니다.</p>
@@ -154,15 +166,16 @@
 <hr class="split">
 
 <h1 id="en">AtThisMoment Privacy Policy</h1>
-<p class="meta">Effective October 29, 2026 · Version 1.10</p>
+<p class="meta">Effective November 12, 2026 · Version 1.11</p>
 
-<p>AtThisMoment (formerly NowSeoul; "the Service") is a location-based app where users ask for a live photo, video, or sound from a place, and nearby users capture and deliver it. This policy explains what the Service processes, why, for how long, and what rights you have. It applies to the iOS app, the watchOS app, and the iOS share extension.</p>
+<p>AtThisMoment (formerly NowSeoul; "the Service") is a location-based app where users ask for a live photo, video, or sound from a place, and nearby users capture and deliver it. This policy explains what the Service processes, why, for how long, and what rights you have. It applies to the iOS app, the watchOS app, the iOS share extension, and the Android app.</p>
 
 <h2>1. Information we collect</h2>
 <h3>Account</h3>
 <ul>
-  <li>The anonymous user identifier issued by Apple when you sign in with Apple. We use it only as a pseudonymous internal ID.</li>
-  <li>Apple may ask whether to share your name at sign-in; we do not store it. We do not request your email address.</li>
+  <li>Sign in with Apple: the anonymous user identifier issued by Apple. We use it only as a pseudonymous internal ID. Apple may ask whether to share your name at sign-in; we do not store it, and we do not request your email address.</li>
+  <li>Sign in with Google: the user identifier issued by Google, used as a pseudonymous internal ID. During Google sign-in, Google also provides your email address, name, and profile photo URL; these are stored by the authentication service that handles sign-in (Supabase Auth). We do not show this information in the app or to other users, and we do not use it for notifications, advertising, or marketing.</li>
+  <li>One sign-in method per account. An account created with Apple and an account created with Google are separate accounts.</li>
 </ul>
 <h3>Location</h3>
 <ul>
@@ -187,14 +200,16 @@
 </ul>
 <h3>Device and notifications</h3>
 <ul>
-  <li>Your Apple Push Notification (APNs) token and platform (iOS/watchOS), used only to deliver notifications.</li>
+  <li>Push tokens: on iPhone and Apple Watch, your Apple Push Notification (APNs) token; on Android, your Firebase Cloud Messaging (FCM) token; plus the platform. Used only to deliver notifications.</li>
+  <li>Hash of a device identifier: so that sign-up coins are granted only once per device, we store only a hash of a device identifier created by the app (on Android, the per-device, per-app ANDROID_ID; on iPhone, a random value the app creates and keeps in the device keychain). The original value is not stored on our server, and the hash is not stored with your account.</li>
 </ul>
 <h3>In-app coins</h3>
 <ul>
   <li>Records of in-app coins granted and spent on requests and replies. Coins are free and are not connected to money or payments. We do not collect payment information.</li>
+  <li>Sign-up coins are intended to be granted once per person; the device-identifier hash above is used for this.</li>
 </ul>
 <h3>What we do not collect</h3>
-<p>Name, email, phone number, contacts, advertising identifier (IDFA), health data, or payment data. We do not track you for advertising.</p>
+<p>Phone number, contacts, advertising identifiers (IDFA / Advertising ID), health data, or payment data. Name and email are stored by the authentication service only if you sign in with Google, as described under Account; they are not collected if you sign in with Apple. We do not track you for advertising.</p>
 
 <h2>2. Why we use it</h2>
 <ul>
@@ -205,6 +220,7 @@
   <li>To send push notifications about requests, replies, and broadcasts</li>
   <li>To handle reports and blocks and prevent abuse</li>
   <li>To keep an accurate record of in-app coins</li>
+  <li>To prevent duplicate sign-up coins (once per device, and once per person if identity verification is introduced in the future)</li>
   <li>To notify the sender that their now broadcast was captured</li>
 </ul>
 
@@ -217,8 +233,11 @@
   <tr><td>Photo library (read)</td><td>Choosing photos or videos to upload</td></tr>
   <tr><td>Photo library (add)</td><td>Saving received media and originals you capture</td></tr>
   <tr><td>Speech recognition</td><td>On-device transcription of voice recordings</td></tr>
+  <tr><td>Notifications (Android 13+)</td><td>Notifications about requests, replies, and now broadcasts</td></tr>
+  <tr><td>Full-screen notifications, display over other apps (Android)</td><td>Showing now broadcasts as lock-screen cards and floating windows</td></tr>
+  <tr><td>Read photos and videos, photo location (Android)</td><td>Choosing media to upload; reading capture location</td></tr>
 </table>
-<p>You can turn any permission off in iOS or watchOS Settings; only the related feature is affected.</p>
+<p>You can turn any permission off in iOS, watchOS, or Android settings; only the related feature is affected.</p>
 
 <h2>4. Retention and deletion</h2>
 <ul>
@@ -235,16 +254,18 @@
   <li>Originals you capture: tapping “Save original” on the send screen saves the original, before face masking, together with its capture location and time, only to your device’s photo library. This original is not sent to our servers.</li>
   <li>Now broadcast capture records: deleted together with the related now broadcast, 5 minutes after its creation.</li>
   <li>Current location: only the latest location per account is kept; each update overwrites it. No movement history is stored.</li>
-  <li>Account deletion: available from the person icon at the bottom right of the main map screen → Delete account, effective immediately. Your account, location, push tokens, connections, all content and files, and coin records are deleted together. To prevent re-registration abuse we keep only an irreversible hash. Deleting your account also deletes the reply originals and keys stored on our server. Originals stored in iCloud (CloudKit) for trades before Version 1.9 may not be removed by account deletion.</li>
+  <li>Account deletion: available from the person icon at the bottom right of the main map screen → Delete account, effective immediately. Your account, location, push tokens, connections, all content and files, and coin records are deleted together. To prevent re-registration abuse we keep only a hash instead of the original value. Deleting your account also deletes the reply originals and keys stored on our server. Originals stored in iCloud (CloudKit) for trades before Version 1.9 may not be removed by account deletion.</li>
+  <li>Google sign-in information (email address, name, profile photo URL): deleted from the authentication service when you delete your account.</li>
+  <li>Device-identifier hash: kept after account deletion, because it is not linked to any account and is used to prevent repeatedly receiving sign-up coins by deleting and re-registering. It is kept for as long as this purpose remains and is deleted when the Service ends.</li>
 </ul>
 
 <h2>5. Processors and third parties</h2>
 <p>We do not sell your personal data. We rely on the following providers only as needed to run the Service.</p>
 <table>
   <tr><th>Provider</th><th>Role</th><th>Processing location</th></tr>
-  <tr><td>Supabase, Inc.</td><td>Database, file storage, and server functions</td><td>South Korea (Seoul region)</td></tr>
-  <tr><td>Apple Inc.</td><td>Sign in with Apple, push notifications, iCloud storage of trade media from before Version 1.9</td><td>Apple infrastructure</td></tr>
-  <tr><td>Google LLC</td><td>Map display outside Korea (Google Maps SDK)</td><td>United States and other countries</td></tr>
+  <tr><td>Supabase, Inc.</td><td>Database, file storage, server functions, and authentication</td><td>South Korea (Seoul region)</td></tr>
+  <tr><td>Apple Inc.</td><td>Sign in with Apple, iPhone and Apple Watch push notifications, iCloud storage of trade media from before Version 1.9</td><td>Apple infrastructure</td></tr>
+  <tr><td>Google LLC</td><td>Sign in with Google, Android push notifications (Firebase Cloud Messaging), map display outside Korea (Google Maps SDK, iPhone)</td><td>United States and other countries</td></tr>
   <tr><td>NAVER Cloud Corp.</td><td>Map display inside Korea (NAVER Maps SDK)</td><td>South Korea</td></tr>
 </table>
 <p>The Google Maps SDK independently collects data such as a device identifier, product interaction, crash and performance data, as described in the <a href="https://policies.google.com/privacy">Google Privacy Policy</a>. Other users see the content of requests, replies, and broadcasts, the chosen place, and the capture location and time attached to reply media. Note that sending a reply reveals where that media was captured to the requester. When you send a reply, the requester also sees your display name. Your account identifier and your current location while not sending media are not shown. Now broadcasts sent to “Selected people” are shown only to the connected people you chose, and your current location appears on their map. Connected people can see each other's display names. If you capture someone else's now broadcast, the sender is notified. For a now broadcast you received as one of the “Selected people”, your display name is included; for a public now broadcast, you are shown only as “someone”. When you reply to a free request with “Also post publicly” turned on, the same content is also posted as a face-masked public now broadcast under the public rules; the requester does not receive a separate notification for the public copy.</p>
@@ -252,8 +273,11 @@
 <h2>6. International transfers</h2>
 <table>
   <tr><th>Recipient</th><th>Country</th><th>Data</th><th>Purpose</th><th>Retention</th></tr>
-  <tr><td>Google LLC</td><td>United States</td><td>Device identifier, product interaction, crash and performance data</td><td>Map display outside Korea</td><td>Per Google's policy</td></tr>
+  <tr><td>Google LLC</td><td>United States</td><td>Google account identifier, email address, name, profile photo URL (if you sign in with Google)</td><td>Sign-in</td><td>Per Google's policy</td></tr>
+  <tr><td>Google LLC</td><td>United States</td><td>Android push token, app installation identifier</td><td>Delivering Android notifications</td><td>Per Google's policy</td></tr>
+  <tr><td>Google LLC</td><td>United States</td><td>Device identifier, product interaction, crash and performance data</td><td>Map display outside Korea (iPhone)</td><td>Per Google's policy</td></tr>
 </table>
+<p>International transfers occur when you sign in with Google, when you receive notifications on Android, and when you use maps outside Korea on iPhone. If you do not want this, you can sign in with Apple, turn off Android notifications, and not use maps outside Korea; the related features will be limited.</p>
 
 <h2>7. Your rights</h2>
 <ul>
@@ -267,7 +291,7 @@
 <p>The Service is not directed to children under 14 and does not knowingly collect their data. If we learn we have collected such data, we delete it promptly.</p>
 
 <h2>9. Security</h2>
-<p>We use database row-level access policies, permission checks in server functions, encryption in transit (HTTPS/TLS), encryption at rest for trade originals (a random key per reply), and automatic deletion of expired data.</p>
+<p>We use database row-level access policies, permission checks in server functions, encryption in transit (HTTPS/TLS), encryption at rest for trade originals (a random key per reply), automatic deletion of expired data, and storing only a hash of device identifiers (the original value is not stored).</p>
 
 <h2>10. Changes</h2>
 <p>Updates are posted on this page with a new effective date. Significant changes are also announced in the app.</p>
